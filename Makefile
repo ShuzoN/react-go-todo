@@ -1,4 +1,5 @@
 DOCKER=$(shell which docker)
+DOCKER_COMPOSE=$(shell which docker-compose)
 GO=$(shell which go)
 GO_IMAGE=headphonista:go
 
@@ -14,6 +15,6 @@ docker/run:
 docker/run/bash:
 	$(DOCKER) run -it --rm $(GO_IMAGE) /bin/bash
 
-build:
-	$(GO) build *.go
+up:
+	$(DOCKER_COMPOSE) up
 
