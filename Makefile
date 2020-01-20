@@ -9,6 +9,9 @@ docker/build:
 	$(DOCKER) build -t $(GO_IMAGE) .
 
 docker/run:
+	$(DOCKER) run --rm $(GO_IMAGE)
+
+docker/run/bash:
 	$(DOCKER) run -it --rm $(GO_IMAGE) /bin/bash
 
 build:
