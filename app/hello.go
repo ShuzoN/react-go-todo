@@ -1,13 +1,16 @@
 package main
 
 import (
-	"fmt"
+	"log"
+	"net/http"
 )
 
 
 func main() {
-	// ここをサーバのデーモンに書き換えような
-	fmt.Printf("hello")
-	// 次はechoサーバを作ろう
+	fileServer := http.FileServer(http.Dir("static"))
+	http.Handle("/", fileServer)
+
+	log.Println("Listening...")
+	http.ListenAndServe(":3000", nil)
 }
 

@@ -16,5 +16,8 @@ docker/run/bash:
 	$(DOCKER) run -it --rm $(GO_IMAGE) /bin/bash
 
 up:
-	$(DOCKER_COMPOSE) up
+	$(DOCKER_COMPOSE) up --build  --remove-orphans -d
+
+down:
+	$(DOCKER_COMPOSE) down
 
