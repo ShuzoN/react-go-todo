@@ -10,7 +10,7 @@ MYSQL_ROOT_PASSWORD=mysqlrootpassword
 MYSQL_CONFIG=my.cnf
 MAKE=$(shell which make)
 MIGRATE=./mysql/bin/migrate
-
+GO_CONTAINER_ID=$(shell docker ps | grep 'web' | awk '{print $$1}')
 
 .PHONY: docker/build docker/run build
 
@@ -19,6 +19,9 @@ docker/build:
 
 docker/run:
 	$(DOCKER) run --rm $(GO_IMAGE)
+
+go/build:
+	$(DOCKER) exec $(GO_CONTAINER_ID) make -C ./app build
 
 docker/run/bash:
 	$(DOCKER) run -it --rm $(GO_IMAGE) /bin/bash
