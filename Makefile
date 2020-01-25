@@ -9,6 +9,7 @@ GO_IMAGE=headphonista:go
 MYSQL_ROOT_PASSWORD=mysqlrootpassword
 MYSQL_CONFIG=my.cnf
 MAKE=$(shell which make)
+MIGRATE=./mysql/bin/migrate
 
 
 .PHONY: docker/build docker/run build
@@ -22,10 +23,13 @@ docker/run:
 docker/run/bash:
 	$(DOCKER) run -it --rm $(GO_IMAGE) /bin/bash
 
-up:
+server:
+	$(MAKE) server/up mysql/setup
+
+server/up:
 	$(DOCKER_COMPOSE) up --build  --remove-orphans -d $(DOCKER_COMPOSE_SERVICES)
 
-down:
+server/down:
 	$(DOCKER_COMPOSE) down
 
 
@@ -38,8 +42,15 @@ $(MYSQL_CONFIG):
 
 mysql/wait:
 	which mysqladmin
+	@echo "waiting boot mysql..." &&  sleep 30
+
 
 mysql/init: $(MYSQL_CONFIG) mysql/wait
 	mysql --defaults-extra-file=$(MYSQL_CONFIG) -e "CREATE DATABASE IF NOT EXISTS headphonista"
 
-mysql/setup: mysql/wait mysql/init
+$(MIGRATE):
+	$(MAKE) -C ./mysql install
+
+mysql/setup: $(MIGRATE) mysql/init
+	$(MIGRATE) -path ./mysql/sql -database 'mysql://root:$(MYSQL_ROOT_PASSWORD)@tcp(127.0.0.1:$(MYSQL_PORT))/headphonista' up
+
