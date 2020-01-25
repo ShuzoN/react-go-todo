@@ -1,5 +1,8 @@
+HTTP_PORT=80
+HTTPS_PORT=443
+MYSQL_PORT=3306
 DOCKER=$(shell which docker)
-DOCKER_COMPOSE=$(shell which docker-compose)
+DOCKER_COMPOSE=HTTP_PORT=$(HTTP_PORT) HTTPS_PORT=$(HTTPS_PORT) MYSQL_PORT=$(MYSQL_PORT) $(shell which docker-compose)
 GO=$(shell which go)
 GO_IMAGE=headphonista:go
 
