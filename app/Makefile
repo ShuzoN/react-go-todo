@@ -6,4 +6,4 @@ build: fmt
 	$(GO) build main.go
 
 fmt:
-	$(GO) fmt ./
+	$(GO) fmt ./main.go
