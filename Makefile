@@ -5,26 +5,14 @@ DOCKER=$(shell which docker)
 DOCKER_COMPOSE=HTTP_PORT=$(HTTP_PORT) HTTPS_PORT=$(HTTPS_PORT) MYSQL_PORT=$(MYSQL_PORT) MYSQL_ROOT_PASSWORD=$(MYSQL_ROOT_PASSWORD) $(shell which docker-compose)
 DOCKER_COMPOSE_SERVICES=$(shell cat docker-compose.yml|awk '/^services/,/^network/' | grep -E '^\s{2}\S+' | sed 's/://g' | xargs)
 GO=$(shell which go)
-GO_IMAGE=headphonista:go
 MYSQL_ROOT_PASSWORD=mysqlrootpassword
 MYSQL_CONFIG=my.cnf
 MAKE=$(shell which make)
 MIGRATE=./mysql/bin/migrate
 GO_CONTAINER_ID=$(shell docker ps | grep 'web' | awk '{print $$1}')
 
-.PHONY: docker/build docker/run build
-
-docker/build:
-	$(DOCKER) build -t $(GO_IMAGE) .
-
-docker/run:
-	$(DOCKER) run --rm $(GO_IMAGE)
-
-go/build:
-	$(DOCKER) exec $(GO_CONTAINER_ID) make -C ./src build
-
-docker/run/bash:
-	$(DOCKER) run -it --rm $(GO_IMAGE) /bin/bash
+logs:
+	$(DOCKER_COMPOSE) logs
 
 server:
 	$(MAKE) server/up mysql/setup
