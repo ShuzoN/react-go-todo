@@ -1,13 +1,17 @@
 GO=$(shell which go)
-BIN=./bin
+PWD=$(shell pwd)
+DIR=bin
 
 .PHONY: build fmt
 
-build: fmt
-	$(GO) $@ -o $(BIN)/main ./main.go
+$(DIR): clear
+	mkdir -p $(PWD)/$@
+
+build: $(DIR) fmt
+	$(GO) $@ -o $(PWD)/$(DIR)/main $(PWD)/main.go
 
 fmt:
-	$(GO) fmt ./main.go
+	$(GO) fmt $(PWD)/main.go
 
-run: build
-	$(BIN)/main
+clear:
+	rm -rf $(PWD)/$(DIR)

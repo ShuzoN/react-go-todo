@@ -1,5 +1,4 @@
 .idea
 mysql/tmp
 mysql/bin
-app/main
-main
+src/bin

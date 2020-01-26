@@ -11,11 +11,19 @@ schema:
   commands:
     install:
       status: true
+      method: make build
+    build:
+      status: true
+      method: make build
     run:
       status: true
+      method: /go/src/app/src/bin/main
   watcher:
     extensions:
     - go
+    - html
+    - css
+    - js
     paths:
     - /
     ignored_paths:
