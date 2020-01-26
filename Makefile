@@ -21,7 +21,7 @@ docker/run:
 	$(DOCKER) run --rm $(GO_IMAGE)
 
 go/build:
-	$(DOCKER) exec $(GO_CONTAINER_ID) make -C ./app build
+	$(DOCKER) exec $(GO_CONTAINER_ID) make -C ./src build
 
 docker/run/bash:
 	$(DOCKER) run -it --rm $(GO_IMAGE) /bin/bash
