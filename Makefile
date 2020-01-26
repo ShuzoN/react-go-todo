@@ -43,9 +43,26 @@ $(MYSQL_CONFIG):
 	echo "host=127.0.0.1" >> $@
 	echo "port=$(MYSQL_PORT)" >> $@
 
+RETRY_COUNT=30
+RETRY_RANGE=$(shell seq 1 $(RETRY_COUNT) | xargs)
+
+mysql/start:
+	$(DOCKER_COMPOSE) start mysqld
+
+mysql/stop:
+	$(DOCKER_COMPOSE) stop mysqld
+
+mysql/rebuild:
+	$(DOCKER_COMPOSE) rm --force --stop mysqld
+	$(DOCKER_COMPOSE) up --build -d mysqld
+
+mysql/lifecheck: 
+	for i in $(RETRY_RANGE); do mysqladmin ping &>/dev/null && break || echo '.' && sleep 1  && [ $(RETRY_COUNT) -eq $$i ] && exit 1; done
+
 mysql/wait:
 	which mysqladmin
-	@echo "waiting boot mysql..." &&  sleep 30
+	@echo "waiting boot mysql..."
+	$(MAKE) mysql/lifecheck
 
 
 mysql/init: $(MYSQL_CONFIG) mysql/wait
