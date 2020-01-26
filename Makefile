@@ -35,6 +35,10 @@ server/up:
 server/down:
 	$(DOCKER_COMPOSE) down
 
+web/rebuild:
+	$(DOCKER_COMPOSE) rm --force --stop web
+	$(DOCKER_COMPOSE) up --build -d web
+
 
 $(MYSQL_CONFIG):
 	echo "[client]" >> $@
