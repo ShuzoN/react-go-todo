@@ -70,5 +70,10 @@ $(MIGRATE):
 	$(MAKE) -C ./mysql install
 
 mysql/setup: $(MIGRATE) mysql/init
+	$(MAKE) mysql/migrate/up
+
+
+mysql/migrate/up:
 	$(MIGRATE) -path ./mysql/sql -database 'mysql://root:$(MYSQL_ROOT_PASSWORD)@tcp(127.0.0.1:$(MYSQL_PORT))/headphonista' up
+
 
