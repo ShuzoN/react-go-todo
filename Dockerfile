@@ -10,5 +10,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 RUN go get -d -v ./...
-RUN go get -u github.com/oxequa/realize
+# https://github.com/oxequa/realize/issues/253
+RUN go get gopkg.in/urfave/cli.v2@master
+RUN go get github.com/oxequa/realize
 RUN go install -v ./...
