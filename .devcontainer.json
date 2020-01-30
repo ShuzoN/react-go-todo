@@ -1,0 +1,16 @@
+
+{
+  "name": "headphonista",
+  "dockerComposeFile": "./docker-compose.yml",
+  "service": "web",
+  "settings": { 
+    "terminal.integrated.shell.linux": "/bin/bash",
+    "go.gopath": "/go",
+    "go.inferGopath": true,
+    "go.useLanguageServer": true
+  },
+  "remoteUser": "root",
+  "extensions": [
+    "ms-vscode.go"
+  ]
+}
