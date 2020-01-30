@@ -13,7 +13,7 @@ MIGRATE=./mysql/bin/migrate
 GO_CONTAINER_ID=$(shell docker ps | grep 'web' | awk '{print $$1}')
 
 logs:
-	$(DOCKER_COMPOSE) logs
+	$(DOCKER_COMPOSE) logs -f
 
 server:
 	$(MAKE) server/up mysql/setup
