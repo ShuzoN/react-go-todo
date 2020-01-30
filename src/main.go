@@ -47,7 +47,7 @@ type DatabaseRepository struct {
 }
 
 func databaseRepository() *DatabaseRepository {
-	db, err := sql.Open("mysql", "root:mysqlrootpassword@tcp(172.22.0.3:3306)/headphonista")
+	db, err := sql.Open("mysql", "root:mysqlrootpassword@tcp(mysqld:3306)/headphonista")
 	if err != nil {
 		log.Fatal(err)
 	}
