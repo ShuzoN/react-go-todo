@@ -10,6 +10,7 @@
     "go.useLanguageServer": true
   },
   "remoteUser": "root",
+  "workspaceFolder":"/go/src/app",
   "extensions": [
     "ms-vscode.go"
   ]
