@@ -1,8 +1,11 @@
 package main
 
 import (
+	"bytes"
 	"context"
 	"database/sql"
+	"html/template"
+	"io"
 	"log"
 	"net/http"
 	"time"
@@ -11,8 +14,6 @@ import (
 )
 
 func main() {
-	fileServer := http.FileServer(http.Dir("static"))
-	http.Handle("/", fileServer)
 
 	db, _ := sql.Open("mysql", "root:mysqlrootpassword@tcp(172.22.0.3:3306)/headphonista")
 
@@ -50,7 +51,9 @@ func (s *Service) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "not found", http.StatusNotFound)
 		return
 	case "/":
-		log.Println("/")
+		tmpl := template.Must(template.ParseFiles("./static/index.tpl"))
+		buff := new(bytes.Buffer)
+		wbf := io.Writer(buff)
 		ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
 		defer cancel()
 
@@ -60,6 +63,19 @@ func (s *Service) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 			log.Fatal("unable to execute search query", err)
 		}
 		log.Println("name=", name)
+
+		data := struct {
+			Name string
+		}{
+			Name: name,
+		}
+
+		err = tmpl.ExecuteTemplate(wbf, "index", data)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		w.Write(buff.Bytes())
 		return
 	}
 }
