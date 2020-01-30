@@ -11,6 +11,17 @@ MYSQL_CONFIG=my.cnf
 MAKE=$(shell which make)
 MIGRATE=./mysql/bin/migrate
 GO_CONTAINER_ID=$(shell docker ps | grep 'web' | awk '{print $$1}')
+GO_VERSION=go1.13.7
+GO_PKG=https://dl.google.com/go/$(GO_VERSION).darwin-amd64.tar.gz
+
+install/local/go:
+	[ -f ./$(GO_VERSION).tar.gz ] || wget $(GO_PKG) -O ./$(GO_VERSION).tar.gz
+	sudo tar -C /usr/local -zxvf ./$(GO_VERSION).tar.gz
+	[ -f ./$(GO_VERSION).tar.gz ] && rm ./$(GO_VERSION).tar.gz
+
+install/local: install/local/go
+	@echo "export PATH=$PATH:/usr/local/go/bin >> ~/.bashrc"
+	@echo "export GOPATH=~/go >> ~/.bashrc"
 
 logs:
 	$(DOCKER_COMPOSE) logs -f
