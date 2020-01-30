@@ -1,20 +1,40 @@
 package main
 
 import (
-	"bytes"
 	"context"
 	"database/sql"
-	"html/template"
-	"io"
 	"log"
-	"net/http"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
 )
 
 func main() {
+	r := gin.Default()
 
+	ds := databaseService()
+
+	ctx, stop := context.WithCancel(context.Background())
+	defer stop()
+
+	ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
+	defer cancel()
+
+	r.GET("/", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": ds.getUserName(1),
+		})
+	})
+	r.Run(":80")
+
+}
+
+type DatabaseServeice struct {
+	db *sql.DB
+}
+
+func databaseService() *DatabaseServeice {
 	db, _ := sql.Open("mysql", "root:mysqlrootpassword@tcp(172.22.0.3:3306)/headphonista")
 
 	db.SetConnMaxLifetime(0)
@@ -25,57 +45,19 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	defer db.Close()
 
-	s := &Service{db: db}
+	ds := new(DatabaseServeice)
+	ds.db = db
 
-	log.Println("Listening...")
-	http.ListenAndServe(":80", s)
+	return ds
 }
 
-type Service struct {
-	db *sql.DB
-}
-
-func (s *Service) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	db := s.db
-	err := db.Ping()
+func (ds *DatabaseServeice) getUserName(id int) string {
+	var name string
+	err := ds.db.QueryRow("select p.name from users as p where p.id = ?;", id).Scan(&name)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatal("unable to execute search query", err)
 	}
-	ctx, stop := context.WithCancel(context.Background())
-	defer stop()
 
-	switch r.URL.Path {
-	default:
-		http.Error(w, "not found", http.StatusNotFound)
-		return
-	case "/":
-		tmpl := template.Must(template.ParseFiles("./static/index.tpl"))
-		buff := new(bytes.Buffer)
-		wbf := io.Writer(buff)
-		ctx, cancel := context.WithTimeout(ctx, 5*time.Second)
-		defer cancel()
-
-		var name string
-		err := db.QueryRowContext(ctx, "select p.name from users as p where p.id = ?;", 1).Scan(&name)
-		if err != nil {
-			log.Fatal("unable to execute search query", err)
-		}
-		log.Println("name=", name)
-
-		data := struct {
-			Name string
-		}{
-			Name: name,
-		}
-
-		err = tmpl.ExecuteTemplate(wbf, "index", data)
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		w.Write(buff.Bytes())
-		return
-	}
+	return name
 }
