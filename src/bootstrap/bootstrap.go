@@ -1,35 +1,24 @@
 package bootstrap
 
 import (
-	"database/sql"
-	"log"
-
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/jinzhu/gorm"
 )
 
 var Pool = boot()
 
 type bootstrap struct {
-	db *sql.DB
+	db *gorm.DB
 }
 
-func (bs *bootstrap) GetDB() *sql.DB {
+func (bs *bootstrap) GetDB() *gorm.DB {
 	return bs.db
 }
 
 func boot() *bootstrap {
-	db, err := sql.Open("mysql", "root:mysqlrootpassword@tcp(mysqld:3306)/headphonista")
+	db, err := gorm.Open("mysql", "root:mysqlrootpassword@tcp(mysqld:3306)/headphonista")
 	if err != nil {
-		log.Fatalln(err)
-	}
-
-	db.SetConnMaxLifetime(0)
-	db.SetMaxIdleConns(50)
-	db.SetMaxOpenConns(50)
-
-	err = db.Ping()
-	if err != nil {
-		log.Fatalln(err)
+		panic(err)
 	}
 
 	return &bootstrap{
