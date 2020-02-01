@@ -4,3 +4,5 @@ mysql/bin
 src/bin
 go.sum
 node_modules
+ui/node_modules
+yarn-error.log

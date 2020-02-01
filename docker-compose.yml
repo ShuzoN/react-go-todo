@@ -37,7 +37,7 @@ services:
     volumes:
       - ./ui:/go/src/app/ui
     ports:
-      - 127.0.0.1:${UI_PORT}:8080
+      - 127.0.0.1:${UI_PORT}:3000
     command: yarn start
     networks:
       headphonista:
