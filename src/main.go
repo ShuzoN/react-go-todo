@@ -12,5 +12,5 @@ func main() {
 	routers.Router(r)
 
 	r.Run(":80")
-	defer bootstrap.Pool.CloseDB()
+	defer bootstrap.CloseDB()
 }

@@ -25,6 +25,6 @@ func (ds *userService) GetUserById(id int) (*dto.User, error) {
 
 func CreateUserService() *userService {
 	return &userService{
-		userRepository: infrastructures.CreateUserRepositoryOnMysql(bootstrap.Pool.GetDB()),
+		userRepository: infrastructures.CreateUserRepositoryOnMysql(bootstrap.GetDB()),
 	}
 }

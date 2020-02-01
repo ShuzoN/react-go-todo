@@ -1,18 +1,24 @@
 package bootstrap
 
 import (
+	"sync"
+
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
 )
 
-var Pool = boot()
+var pool *bootstrap
+var once sync.Once
 
 type bootstrap struct {
 	db *gorm.DB
 }
 
-func (bs *bootstrap) GetDB() *gorm.DB {
-	return bs.db
+func GetDB() *gorm.DB {
+	once.Do(func() {
+		pool = boot()
+	})
+	return pool.db
 }
 
 func boot() *bootstrap {
@@ -26,8 +32,8 @@ func boot() *bootstrap {
 	}
 }
 
-func (bs *bootstrap) CloseDB() {
-	if err := bs.db.Close(); err != nil {
+func CloseDB() {
+	if err := pool.db.Close(); err != nil {
 		panic(err)
 	}
 }
