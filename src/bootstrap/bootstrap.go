@@ -7,13 +7,17 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-var Connection = ConnectDatabase()
+var Pool = boot()
 
-type Bootstrap struct {
-	DbConnection *sql.DB
+type bootstrap struct {
+	db *sql.DB
 }
 
-func ConnectDatabase() *Bootstrap {
+func (bs *bootstrap) GetDB() *sql.DB {
+	return bs.db
+}
+
+func boot() *bootstrap {
 	db, err := sql.Open("mysql", "root:mysqlrootpassword@tcp(mysqld:3306)/headphonista")
 	if err != nil {
 		log.Fatal(err)
@@ -28,8 +32,7 @@ func ConnectDatabase() *Bootstrap {
 		log.Fatal(err)
 	}
 
-	bootstrap := new(Bootstrap)
-	bootstrap.DbConnection = db
-
-	return bootstrap
+	return &bootstrap{
+		db: db,
+	}
 }
