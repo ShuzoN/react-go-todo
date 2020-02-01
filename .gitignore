@@ -3,3 +3,4 @@ mysql/tmp
 mysql/bin
 src/bin
 go.sum
+vendor

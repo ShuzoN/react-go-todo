@@ -21,6 +21,6 @@ func Router(r *gin.Engine) {
 	u := r.Group("/users")
 	{
 		controller := controller.UserController{}
-		u.GET("/:id", controller.GetUser)
+		u.GET("/:id", controller.GetUserById)
 	}
 }
