@@ -1,8 +1,6 @@
 package main
 
 import (
-	"headphonista/src/bootstrap"
-	"headphonista/src/infrastructures"
 	"headphonista/src/services"
 
 	"github.com/gin-gonic/gin"
@@ -11,11 +9,7 @@ import (
 func main() {
 	r := gin.Default()
 
-	boot := bootstrap.ConnectDatabase()
-
-	userRepository := infrastructures.UserRepositoryOnMysql{Bootstrap: boot}
-
-	ds := services.UserService{Repository: &userRepository}
+	ds := services.CreateUserService()
 
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{

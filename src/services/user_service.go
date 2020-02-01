@@ -1,11 +1,11 @@
 package services
 
 import (
+	"headphonista/src/bootstrap"
 	"headphonista/src/infrastructures"
 	"log"
 )
 
-// UserService はユーザのドメインロジックを持つ
 type UserService struct {
 	Repository *infrastructures.UserRepositoryOnMysql
 }
@@ -18,4 +18,11 @@ func (ds *UserService) GetUserName(id int) string {
 	}
 
 	return name
+}
+
+func CreateUserService() *UserService {
+	userService := new(UserService)
+	userService.Repository = &infrastructures.UserRepositoryOnMysql{Bootstrap: bootstrap.Connection}
+
+	return userService
 }
