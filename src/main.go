@@ -1,21 +1,14 @@
 package main
 
 import (
-	"headphonista/src/services"
+	"headphonista/src/routers"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	r := gin.Default()
+	routers.Router(r)
 
-	ds := services.CreateUserService()
-
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": ds.GetUserName(1),
-		})
-	})
 	r.Run(":80")
-
 }
