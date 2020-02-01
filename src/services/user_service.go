@@ -1,13 +1,12 @@
 package services
 
 import (
-	"headphonista/src/bootstrap"
 	"headphonista/src/infrastructures"
 	"log"
 )
 
 type UserService struct {
-	Repository *infrastructures.UserRepositoryOnMysql
+	Repository infrastructures.UserRepository
 }
 
 func (ds *UserService) GetUserName(id int) string {
@@ -22,7 +21,8 @@ func (ds *UserService) GetUserName(id int) string {
 
 func CreateUserService() *UserService {
 	userService := new(UserService)
-	userService.Repository = &infrastructures.UserRepositoryOnMysql{Bootstrap: bootstrap.Connection}
+
+	userService.Repository = infrastructures.CreateUserRepositoryOnMysql()
 
 	return userService
 }
