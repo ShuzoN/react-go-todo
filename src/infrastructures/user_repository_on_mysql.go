@@ -1,7 +1,7 @@
 package infrastructures
 
 import (
-	"database/sql"
+	"headphonista/src/dto"
 
 	"github.com/jinzhu/gorm"
 )
@@ -16,6 +16,11 @@ type UserRepositoryOnMysql struct {
 	dbConnection *gorm.DB
 }
 
-func (userRepository *UserRepositoryOnMysql) GetByID(id int) *sql.Row {
-	return userRepository.dbConnection.Raw("select p.id, p.name from users as p where p.id = ?;", id).Row()
+func (userRepository *UserRepositoryOnMysql) GetByID(id int) (*dto.User, error) {
+
+	user := dto.User{}
+	if err := userRepository.dbConnection.First(&user, id).Error; err != nil {
+		return &user, err
+	}
+	return &user, nil
 }

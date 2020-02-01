@@ -25,7 +25,7 @@ func (c *UserController) GetUserById(ctx *gin.Context) {
 	ds := services.CreateUserService()
 	user, err := ds.GetUserById(queryParams.ID)
 	if err != nil {
-		ctx.JSON(http.StatusNotFound, gin.H{"error": "page not found"})
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "bad request"})
 		return
 	}
 
