@@ -1,4 +1,4 @@
-module app
+module headphonista
 
 go 1.13
 

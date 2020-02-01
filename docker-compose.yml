@@ -12,6 +12,8 @@ services:
       - 127.0.0.1:${REALIZE_PORT}:3000
     command:
       realize start
+    depends_on:
+      - mysqld
     networks:
       headphonista:
 
