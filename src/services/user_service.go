@@ -6,11 +6,11 @@ import (
 	"log"
 )
 
-type UserService struct {
+type userService struct {
 	userRepository infrastructures.Repository
 }
 
-func (ds *UserService) GetUserName(id int) string {
+func (ds *userService) GetUserName(id int) string {
 	var name string
 	err := ds.userRepository.GetByID(id).Scan(&name)
 	if err != nil {
@@ -20,8 +20,8 @@ func (ds *UserService) GetUserName(id int) string {
 	return name
 }
 
-func CreateUserService() *UserService {
-	return &UserService{
-		userRepository: infrastructures.CreateUserRepositoryOnMysql(bootstrap.Connection.DbConnection),
+func CreateUserService() *userService {
+	return &userService{
+		userRepository: infrastructures.CreateUserRepositoryOnMysql(bootstrap.Pool.GetDB()),
 	}
 }
