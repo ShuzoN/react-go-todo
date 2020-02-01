@@ -11,7 +11,11 @@ import (
 func main() {
 	r := gin.Default()
 
-	ds := databaseService()
+	dbConnection := MysqlConnect()
+
+	userRepository := UserRepository{connection: dbConnection}
+
+	ds := UserService{repository: &userRepository}
 
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(200, gin.H{
@@ -22,19 +26,13 @@ func main() {
 
 }
 
-type DatabaseService struct {
-	databaseRepository *DatabaseRepository
+type UserService struct {
+	repository *UserRepository
 }
 
-func databaseService() *DatabaseService {
-	ds := new(DatabaseService)
-	ds.databaseRepository = databaseRepository()
-	return ds
-}
-
-func (ds *DatabaseService) getUserName(id int) string {
+func (ds *UserService) getUserName(id int) string {
 	var name string
-	err := ds.databaseRepository.getUserById(id).Scan(&name)
+	err := ds.repository.getUserById(id).Scan(&name)
 	if err != nil {
 		log.Fatal("unable to execute search query", err)
 	}
@@ -42,11 +40,19 @@ func (ds *DatabaseService) getUserName(id int) string {
 	return name
 }
 
-type DatabaseRepository struct {
+type UserRepository struct {
+	connection *MysqlConnection
+}
+
+func (userRepository *UserRepository) getUserById(id int) *sql.Row {
+	return userRepository.connection.db.QueryRow("select p.name from users as p where p.id = ?;", id)
+}
+
+type MysqlConnection struct {
 	db *sql.DB
 }
 
-func databaseRepository() *DatabaseRepository {
+func MysqlConnect() *MysqlConnection {
 	db, err := sql.Open("mysql", "root:mysqlrootpassword@tcp(mysqld:3306)/headphonista")
 	if err != nil {
 		log.Fatal(err)
@@ -61,12 +67,8 @@ func databaseRepository() *DatabaseRepository {
 		log.Fatal(err)
 	}
 
-	databaseRepository := new(DatabaseRepository)
-	databaseRepository.db = db
+	c := new(MysqlConnection)
+	c.db = db
 
-	return databaseRepository
-}
-
-func (databaseRepository *DatabaseRepository) getUserById(id int) *sql.Row {
-	return databaseRepository.db.QueryRow("select p.name from users as p where p.id = ?;", id)
+	return c
 }
