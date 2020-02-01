@@ -25,3 +25,9 @@ func boot() *bootstrap {
 		db: db,
 	}
 }
+
+func (bs *bootstrap) CloseDB() {
+	if err := bs.db.Close(); err != nil {
+		panic(err)
+	}
+}
