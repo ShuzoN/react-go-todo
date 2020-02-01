@@ -1,0 +1,14 @@
+{
+  "name": "exp",
+  "main": "index.js",
+  "scripts": {
+    "start": "http-server --port 8080 "
+  },
+  "license": "ISC",
+  "devDependencies": {
+    "http-server": "^0.12.1"
+  },
+  "scripts": {
+    "start": "http-server"
+  }
+}

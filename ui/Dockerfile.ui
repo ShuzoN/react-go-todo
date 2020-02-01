@@ -1,2 +1,4 @@
 FROM node:13.7.0
 WORKDIR /go/src/app/ui
+
+RUN yarn install -y
