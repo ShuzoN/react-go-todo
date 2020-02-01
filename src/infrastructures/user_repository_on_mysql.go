@@ -7,14 +7,14 @@ import (
 
 func CreateUserRepositoryOnMysql() UserRepository {
 	ur := new(UserRepositoryOnMysql)
-	ur.bootstrap = bootstrap.Connection
+	ur.dbConnection = bootstrap.Connection.DbConnection
 	return ur
 }
 
 type UserRepositoryOnMysql struct {
-	bootstrap *bootstrap.Bootstrap
+	dbConnection *sql.DB
 }
 
 func (userRepository *UserRepositoryOnMysql) GetUserByID(id int) *sql.Row {
-	return userRepository.bootstrap.DbConnection.QueryRow("select p.name from users as p where p.id = ?;", id)
+	return userRepository.dbConnection.QueryRow("select p.name from users as p where p.id = ?;", id)
 }
