@@ -5,9 +5,9 @@ import (
 )
 
 func CreateUserRepositoryOnMysql(connection *sql.DB) Repository {
-	ur := new(UserRepositoryOnMysql)
-	ur.dbConnection = connection
-	return ur
+	return &UserRepositoryOnMysql{
+		dbConnection: connection,
+	}
 }
 
 type UserRepositoryOnMysql struct {

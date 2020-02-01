@@ -21,8 +21,7 @@ func (ds *UserService) GetUserName(id int) string {
 }
 
 func CreateUserService() *UserService {
-	userService := new(UserService)
-	userService.userRepository = infrastructures.CreateUserRepositoryOnMysql(bootstrap.Connection.DbConnection)
-
-	return userService
+	return &UserService{
+		userRepository: infrastructures.CreateUserRepositoryOnMysql(bootstrap.Connection.DbConnection),
+	}
 }
