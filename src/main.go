@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"headphonista/src/bootstrap"
 	"log"
 
 	"github.com/gin-gonic/gin"
@@ -11,9 +12,9 @@ import (
 func main() {
 	r := gin.Default()
 
-	dbConnection := MysqlConnect()
+	boot := bootstrap.ConnectDatabase()
 
-	userRepository := UserRepository{connection: dbConnection}
+	userRepository := UserRepository{bootstrap: boot}
 
 	ds := UserService{repository: &userRepository}
 
@@ -41,34 +42,9 @@ func (ds *UserService) getUserName(id int) string {
 }
 
 type UserRepository struct {
-	connection *MysqlConnection
+	bootstrap *bootstrap.Bootstrap
 }
 
 func (userRepository *UserRepository) getUserById(id int) *sql.Row {
-	return userRepository.connection.db.QueryRow("select p.name from users as p where p.id = ?;", id)
-}
-
-type MysqlConnection struct {
-	db *sql.DB
-}
-
-func MysqlConnect() *MysqlConnection {
-	db, err := sql.Open("mysql", "root:mysqlrootpassword@tcp(mysqld:3306)/headphonista")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	db.SetConnMaxLifetime(0)
-	db.SetMaxIdleConns(50)
-	db.SetMaxOpenConns(50)
-
-	err = db.Ping()
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	c := new(MysqlConnection)
-	c.db = db
-
-	return c
+	return userRepository.bootstrap.DbConnection.QueryRow("select p.name from users as p where p.id = ?;", id)
 }
