@@ -1,17 +1,18 @@
 package services
 
 import (
+	"headphonista/src/bootstrap"
 	"headphonista/src/infrastructures"
 	"log"
 )
 
 type UserService struct {
-	Repository infrastructures.UserRepository
+	userRepository infrastructures.Repository
 }
 
 func (ds *UserService) GetUserName(id int) string {
 	var name string
-	err := ds.Repository.GetUserByID(id).Scan(&name)
+	err := ds.userRepository.GetByID(id).Scan(&name)
 	if err != nil {
 		log.Fatal("unable to execute search query", err)
 	}
@@ -21,8 +22,7 @@ func (ds *UserService) GetUserName(id int) string {
 
 func CreateUserService() *UserService {
 	userService := new(UserService)
-
-	userService.Repository = infrastructures.CreateUserRepositoryOnMysql()
+	userService.userRepository = infrastructures.CreateUserRepositoryOnMysql(bootstrap.Connection.DbConnection)
 
 	return userService
 }
