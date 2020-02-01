@@ -20,7 +20,7 @@ func (bs *bootstrap) GetDB() *sql.DB {
 func boot() *bootstrap {
 	db, err := sql.Open("mysql", "root:mysqlrootpassword@tcp(mysqld:3306)/headphonista")
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalln(err)
 	}
 
 	db.SetConnMaxLifetime(0)
@@ -29,7 +29,7 @@ func boot() *bootstrap {
 
 	err = db.Ping()
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalln(err)
 	}
 
 	return &bootstrap{

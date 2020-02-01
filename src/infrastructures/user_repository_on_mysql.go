@@ -15,5 +15,5 @@ type UserRepositoryOnMysql struct {
 }
 
 func (userRepository *UserRepositoryOnMysql) GetByID(id int) *sql.Row {
-	return userRepository.dbConnection.QueryRow("select p.name from users as p where p.id = ?;", id)
+	return userRepository.dbConnection.QueryRow("select p.id, p.name from users as p where p.id = ?;", id)
 }

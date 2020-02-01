@@ -15,7 +15,7 @@ type UserQueryParams struct {
 }
 
 // :id
-func (c *UserController) GetUser(ctx *gin.Context) {
+func (c *UserController) GetUserById(ctx *gin.Context) {
 	var queryParams UserQueryParams
 	if err := ctx.ShouldBindUri(&queryParams); err != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{"error": "page not found"})
@@ -23,14 +23,15 @@ func (c *UserController) GetUser(ctx *gin.Context) {
 	}
 
 	ds := services.CreateUserService()
-	name, err := ds.GetUserName(queryParams.ID)
+	user, err := ds.GetUserById(queryParams.ID)
 	if err != nil {
 		ctx.JSON(http.StatusNotFound, gin.H{"error": "page not found"})
 		return
 	}
 
 	ctx.JSON(http.StatusOK, gin.H{
-		"message": name,
+		"id":   user.ID,
+		"name": user.Name,
 	})
 
 }
