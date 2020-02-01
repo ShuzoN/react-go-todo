@@ -1,7 +1,7 @@
 package infrastructures
 
-import "database/sql"
+import "headphonista/src/dto"
 
 type Repository interface {
-	GetByID(id int) *sql.Row
+	GetByID(id int) (*dto.User, error)
 }

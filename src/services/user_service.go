@@ -12,18 +12,19 @@ type userService struct {
 }
 
 func (ds *userService) GetUserById(id int) (*dto.User, error) {
-	var user dto.User
-	err := ds.userRepository.GetByID(id).Scan(&user.ID, &user.Name)
+	user, err := ds.userRepository.GetByID(id)
 
 	if err != nil {
 		log.Println("unable to execute search query", err)
+		return user, err
 	}
 
-	return &user, err
+	return user, nil
+
 }
 
 func CreateUserService() *userService {
 	return &userService{
-		userRepository: infrastructures.CreateUserRepositoryOnMysql(bootstrap.Pool.GetDB()),
+		userRepository: infrastructures.CreateUserRepositoryOnMysql(bootstrap.GetDB()),
 	}
 }

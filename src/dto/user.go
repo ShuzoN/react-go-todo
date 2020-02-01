@@ -1,6 +1,6 @@
 package dto
 
 type User struct {
-	ID   int
-	Name string
+	ID   int    `gorm:"AUTO_INCREMENT"`
+	Name string `gorm:"type:varchar(255);"`
 }
