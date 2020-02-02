@@ -26,16 +26,16 @@ func (c *UserController) GetUserById(ctx *gin.Context) {
 	}
 
 	var user *dto.User
+	var errGetUser error
 	err := di.Container.Invoke(func(ds *services.UserService) {
-		var err error
-		user, err = ds.GetUserById(queryParams.ID)
-		if err != nil {
-			ctx.JSON(http.StatusBadRequest, gin.H{"error": "bad request"})
-			log.Println(err)
-			return
-		}
+		user, errGetUser = ds.GetUserById(queryParams.ID)
 	})
 	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "server error"})
+		log.Println(err)
+		return
+	}
+	if errGetUser != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": "bad request"})
 		log.Println(err)
 		return
