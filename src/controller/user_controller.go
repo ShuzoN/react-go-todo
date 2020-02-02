@@ -1,7 +1,10 @@
 package controller
 
 import (
+	"headphonista/src/di"
+	"headphonista/src/dto"
 	"headphonista/src/services"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -22,16 +25,23 @@ func (c *UserController) GetUserById(ctx *gin.Context) {
 		return
 	}
 
-	ds := services.CreateUserService()
-	user, err := ds.GetUserById(queryParams.ID)
+	var user *dto.User
+	var errGetUser error
+	err := di.Container.Invoke(func(ds *services.UserService) {
+		user, errGetUser = ds.GetUserById(queryParams.ID)
+	})
 	if err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": "bad request"})
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "server error"})
+		log.Println(err)
 		return
 	}
-
+	if errGetUser != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": "bad request"})
+		log.Println(err)
+		return
+	}
 	ctx.JSON(http.StatusOK, gin.H{
 		"id":   user.ID,
 		"name": user.Name,
 	})
-
 }
