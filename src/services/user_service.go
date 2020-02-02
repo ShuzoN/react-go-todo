@@ -1,18 +1,16 @@
 package services
 
 import (
-	"headphonista/src/bootstrap"
 	"headphonista/src/dto"
-	"headphonista/src/infrastructures"
 	"log"
 )
 
 type UserService struct {
-	userRepository infrastructures.Repository
+	UserRepository Repository
 }
 
 func (ds *UserService) GetUserById(id int) (*dto.User, error) {
-	user, err := ds.userRepository.GetByID(id)
+	user, err := ds.UserRepository.GetByID(id)
 
 	if err != nil {
 		log.Println("unable to execute search query", err)
@@ -21,10 +19,4 @@ func (ds *UserService) GetUserById(id int) (*dto.User, error) {
 
 	return user, nil
 
-}
-
-func CreateUserService() *UserService {
-	return &UserService{
-		userRepository: infrastructures.CreateUserRepositoryOnMysql(bootstrap.GetDB()),
-	}
 }
