@@ -8,14 +8,14 @@ import (
 	"go.uber.org/dig"
 )
 
-var Container = di.init()
+var Container = Init()
 
-func init() *dig.Container {
+func Init() *dig.Container {
 	c := dig.New()
 
-	c.Provide(bootstrap.GetDB())
+	c.Provide(bootstrap.GetDB)
 	c.Provide(infrastructures.CreateUserRepositoryOnMysql)
-	c.Provide(services.CreateUserService())
+	c.Provide(services.CreateUserService)
 
 	return c
 }

@@ -7,11 +7,11 @@ import (
 	"log"
 )
 
-type userService struct {
+type UserService struct {
 	userRepository infrastructures.Repository
 }
 
-func (ds *userService) GetUserById(id int) (*dto.User, error) {
+func (ds *UserService) GetUserById(id int) (*dto.User, error) {
 	user, err := ds.userRepository.GetByID(id)
 
 	if err != nil {
@@ -23,8 +23,8 @@ func (ds *userService) GetUserById(id int) (*dto.User, error) {
 
 }
 
-func CreateUserService() *userService {
-	return &userService{
+func CreateUserService() *UserService {
+	return &UserService{
 		userRepository: infrastructures.CreateUserRepositoryOnMysql(bootstrap.GetDB()),
 	}
 }
