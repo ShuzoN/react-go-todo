@@ -1,4 +1,4 @@
-package infrastructures
+package services
 
 import "headphonista/src/dto"
 
