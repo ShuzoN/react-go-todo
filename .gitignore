@@ -3,4 +3,9 @@ mysql/tmp
 mysql/bin
 src/bin
 go.sum
-vendor
+node_modules
+yarn-error.log
+
+ui/node_modules
+ui/build
+

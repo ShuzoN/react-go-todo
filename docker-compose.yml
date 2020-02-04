@@ -14,6 +14,7 @@ services:
       realize start
     depends_on:
       - mysqld
+      - ui
     networks:
       headphonista:
 
@@ -26,6 +27,18 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       TZ: Asia/Tokyo
+    networks:
+      headphonista:
+
+  ui:
+    build:
+      context: ./ui
+      dockerfile: Dockerfile.ui
+    volumes:
+      - ./ui:/go/src/app/ui
+    ports:
+      - 127.0.0.1:${UI_PORT}:3000
+    command: sh -c "yarn install && yarn build && yarn start"
     networks:
       headphonista:
 

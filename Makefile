@@ -2,8 +2,9 @@ HTTP_PORT=80
 HTTPS_PORT=443
 MYSQL_PORT=3306
 REALIZE_PORT=3000
+UI_PORT=8080
 DOCKER=$(shell which docker)
-DOCKER_COMPOSE=HTTP_PORT=$(HTTP_PORT) HTTPS_PORT=$(HTTPS_PORT) MYSQL_PORT=$(MYSQL_PORT) REALIZE_PORT=$(REALIZE_PORT) MYSQL_ROOT_PASSWORD=$(MYSQL_ROOT_PASSWORD) $(shell which docker-compose)
+DOCKER_COMPOSE=HTTP_PORT=$(HTTP_PORT) HTTPS_PORT=$(HTTPS_PORT) MYSQL_PORT=$(MYSQL_PORT) REALIZE_PORT=$(REALIZE_PORT) UI_PORT=$(UI_PORT) MYSQL_ROOT_PASSWORD=$(MYSQL_ROOT_PASSWORD) $(shell which docker-compose)
 DOCKER_COMPOSE_SERVICES=$(shell cat docker-compose.yml|awk '/^services/,/^network/' | grep -E '^\s{2}\S+' | sed 's/://g' | xargs)
 GO=$(shell which go)
 MYSQL_ROOT_PASSWORD=mysqlrootpassword
@@ -38,6 +39,10 @@ server/down:
 web/rebuild:
 	$(DOCKER_COMPOSE) rm --force --stop web
 	$(DOCKER_COMPOSE) up --build -d web
+
+ui/rebuild:
+	$(DOCKER_COMPOSE) rm --force --stop ui
+	$(DOCKER_COMPOSE) up --build -d ui
 
 
 $(MYSQL_CONFIG):
