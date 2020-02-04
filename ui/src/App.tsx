@@ -1,11 +1,13 @@
 import * as React from 'react';
 import './App.css';
-import { Tasks } from './View/Tasks';
+import { Tasks, Todo } from './View/Tasks';
 
 const App = () => {
+  const todos: Todo[] = [{ title: 'hoge' }, { title: 'fuga' }];
+
   return (
     <div className="App">
-      <Tasks />
+      <Tasks tasks={{ todos: todos }} />
     </div>
   );
 }

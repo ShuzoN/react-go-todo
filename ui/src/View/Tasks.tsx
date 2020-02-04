@@ -13,11 +13,22 @@ const TodoItemButton = (props: { todoTitle: string }): JSX.Element => {
     );
 }
 
-export const Tasks = (): JSX.Element => {
+export interface Todo {
+    title: string
+}
+
+export interface TaskProps {
+    todos: Todo[]
+}
+
+export const Tasks = (props: { tasks: TaskProps }): JSX.Element => {
+    const todoItems = props.tasks.todos.map((todo) => {
+        return <TodoItemButton todoTitle={todo.title} />
+    })
+
     return (
         <List>
-            <TodoItemButton todoTitle={'hoge'} />
-            <TodoItemButton todoTitle={'fuga'} />
+            {todoItems}
         </List>
     );
 }
