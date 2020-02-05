@@ -1,17 +1,19 @@
 import React from 'react';
 import { List, ListItem, ListItemText, ListItemIcon } from '@material-ui/core';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 const TodoItemButton = (props: {
-    todoTitle: string
+    todo: Todo
 }): JSX.Element => {
+    const history = useHistory();
+
     return (
-        <ListItem button>
+        <ListItem button onClick={() => history.push('/' + props.todo.id.toString())}>
             <ListItemIcon>
                 <ArrowRightIcon />
             </ListItemIcon>
-            <ListItemText>{props.todoTitle}</ListItemText>
+            <ListItemText>{props.todo.title}</ListItemText>
         </ListItem>
     );
 }
@@ -27,13 +29,12 @@ export interface TaskProps {
 }
 
 export const Tasks = (tasks: TaskProps): JSX.Element => {
-    const todoItems = tasks.todos.map((todo, index) => {
-        return <TodoItemButton key={index} todoTitle={todo.title} />
+    const todoItems = tasks.todos.map((todo: Todo) => {
+        return <TodoItemButton key={todo.id} todo={todo} />
     })
 
     return (
         <>
-            <Link to="/1">hoge</Link>
             <List>
                 {todoItems}
             </List>
