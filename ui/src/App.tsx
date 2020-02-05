@@ -1,21 +1,31 @@
 import './App.css';
 import { Tasks, Todo } from './View/Tasks';
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
+import { TodoEdit } from './View/TodoEdit';
 
-const App = () => {
-  const [todos, setTodos] = useState<Todo[]>([{ title: 'hoge' }, { title: 'fuga' }]);
+const App = (): JSX.Element => {
+  const [todos, setTodos] = useState<Todo[]>([
+    { id: 1, title: 'hoge' },
+    { id: 2, title: 'fuga' }
+  ]);
 
-  const onChange = (todos: Todo[]) => {
-    setTodos(todos);
-  };
+  const onChange = useCallback((todo: Todo) => {
+    const index = todo.id <= 0 ? 0 : todo.id - 1;
+    const target = [...todos];
+    target.splice(index, 1, todo);
+    setTodos(target);
+  }, [todos]);
 
 
   return (
     <div className="App">
       <Router>
         <Switch>
-          <Route path="/">
+          <Route exact path={`/:id`}>
+            <TodoEdit todos={todos} onChange={onChange} />
+          </Route>
+          <Route exact path="/">
             <Tasks todos={todos} onChange={onChange} />
           </Route>
         </Switch>

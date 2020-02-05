@@ -3,7 +3,9 @@ import { List, ListItem, ListItemText, ListItemIcon } from '@material-ui/core';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import { Link } from 'react-router-dom';
 
-const TodoItemButton = (props: { todoTitle: string }): JSX.Element => {
+const TodoItemButton = (props: {
+    todoTitle: string
+}): JSX.Element => {
     return (
         <ListItem button>
             <ListItemIcon>
@@ -15,22 +17,23 @@ const TodoItemButton = (props: { todoTitle: string }): JSX.Element => {
 }
 
 export interface Todo {
+    id: number
     title: string
 }
 
 export interface TaskProps {
     todos: Todo[]
-    onChange: (todos: Todo[]) => void
+    onChange: (todo: Todo) => void
 }
 
 export const Tasks = (tasks: TaskProps): JSX.Element => {
-    const todoItems = tasks.todos.map((todo) => {
-        return <TodoItemButton todoTitle={todo.title} />
+    const todoItems = tasks.todos.map((todo, index) => {
+        return <TodoItemButton key={index} todoTitle={todo.title} />
     })
 
     return (
         <>
-            <Link to="/">hoge</Link>
+            <Link to="/1">hoge</Link>
             <List>
                 {todoItems}
             </List>
