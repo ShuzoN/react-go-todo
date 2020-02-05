@@ -1,6 +1,7 @@
 import React from 'react';
 import { List, ListItem, ListItemText, ListItemIcon } from '@material-ui/core';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import { Link } from 'react-router-dom';
 
 const TodoItemButton = (props: { todoTitle: string }): JSX.Element => {
     return (
@@ -19,16 +20,20 @@ export interface Todo {
 
 export interface TaskProps {
     todos: Todo[]
+    onChange: (todos: Todo[]) => void
 }
 
-export const Tasks = (props: { tasks: TaskProps }): JSX.Element => {
-    const todoItems = props.tasks.todos.map((todo) => {
+export const Tasks = (tasks: TaskProps): JSX.Element => {
+    const todoItems = tasks.todos.map((todo) => {
         return <TodoItemButton todoTitle={todo.title} />
     })
 
     return (
-        <List>
-            {todoItems}
-        </List>
+        <>
+            <Link to="/">hoge</Link>
+            <List>
+                {todoItems}
+            </List>
+        </>
     );
 }
