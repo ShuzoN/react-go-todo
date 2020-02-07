@@ -1,7 +1,8 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { FormControl, InputLabel, OutlinedInput, List, ListItem, TextField, Button, makeStyles, Grid } from '@material-ui/core';
+import { FormControl, InputLabel, OutlinedInput, List, ListItem, Button, makeStyles, Grid } from '@material-ui/core';
 import { Todo } from './Tasks';
+import { DatePickerForm } from './DatePickerForm';
 
 const useStyles = makeStyles({
     form: {
@@ -78,21 +79,5 @@ const TitleForm = (props: {
                     }} />
             </FormControl>
         </>
-    );
-};
-
-const DatePickerForm = (): JSX.Element => {
-    return (
-        <FormControl>
-            <TextField
-                id="date"
-                label="dead line"
-                type="date"
-                defaultValue="2020-01-01"
-                InputLabelProps={{
-                    shrink: true,
-                }}
-            />
-        </FormControl>
     );
 };
