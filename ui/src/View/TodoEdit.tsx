@@ -1,8 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { FormControl, Typography, InputLabel, OutlinedInput, List, ListItem, TextField, } from '@material-ui/core';
+import { FormControl, InputLabel, OutlinedInput, List, ListItem, TextField, Button, Card } from '@material-ui/core';
 import { Todo } from './Tasks';
-
 
 export const TodoEdit = (props: {
     todos: Todo[],
@@ -19,31 +18,34 @@ export const TodoEdit = (props: {
     if (editTodo === undefined) { return <></>; }
 
     return (
-        <List>
-            <ListItem>
-                <Typography>id : {editTodo.id}</Typography>
-            </ListItem>
-            <ListItem>
-                <FormControl>
-                    <InputLabel htmlFor="component-outlined">title</InputLabel>
-                    <OutlinedInput
-                        value={editTodo.title}
-                        onChange={(e) => {
-                            props.onChange({ ...editTodo, title: e.target.value })
-                        }} />
-                </FormControl>
-            </ListItem>
-            <ListItem>
-                <TextField
-                    id="date"
-                    label="Birthday"
-                    type="date"
-                    defaultValue="2020-01-01"
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
-                />
-            </ListItem>
-        </List>
+        <Card>
+            <List>
+                <ListItem>
+                    <FormControl>
+                        <InputLabel htmlFor="component-outlined">title</InputLabel>
+                        <OutlinedInput
+                            fullWidth
+                            value={editTodo.title}
+                            onChange={(e) => {
+                                props.onChange({ ...editTodo, title: e.target.value })
+                            }} />
+                    </FormControl>
+                </ListItem>
+                <ListItem>
+                    <TextField
+                        id="date"
+                        label="dead line"
+                        type="date"
+                        defaultValue="2020-01-01"
+                        InputLabelProps={{
+                            shrink: true,
+                        }}
+                    />
+                </ListItem>
+                <Button variant="contained" color="primary">
+                    submit
+            </Button>
+            </List>
+        </Card >
     );
 };
