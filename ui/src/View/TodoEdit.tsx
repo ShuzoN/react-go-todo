@@ -1,10 +1,13 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { FormControl, InputLabel, OutlinedInput, List, ListItem, Button, makeStyles, Grid } from '@material-ui/core';
+import { FormControl, InputLabel, OutlinedInput, List, ListItem, Button, makeStyles, Grid, Card } from '@material-ui/core';
 import { Todo } from './Tasks';
 import { DatePickerForm } from './DatePickerForm';
 
 const useStyles = makeStyles({
+    card: {
+        margin: '20px 10%',
+    },
     form: {
         width: '100%',
     },
@@ -14,6 +17,7 @@ export const TodoEdit = (props: {
     todos: Todo[],
     onChange: (todo: Todo) => void,
 }): JSX.Element => {
+    const c = useStyles();
 
     const params: { id?: string | undefined } = useParams();
 
@@ -26,31 +30,33 @@ export const TodoEdit = (props: {
     if (editTodo === undefined) { return <></>; }
 
     return (
-        <List >
-            <ListItem>
-                <Grid container spacing={3}>
-                    <Grid item xs={12} >
-                        <TitleForm
-                            editTodo={editTodo}
-                            onChange={props.onChange}
-                        />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <DatePickerForm />
-                    </Grid>
-                    <Grid item xs={12}>
-                        <Grid justify="center" container>
-                            <Button
-                                variant="contained"
-                                color="primary"
-                            >
-                                submit
+        <Card className={c.card}>
+            <List >
+                <ListItem>
+                    <Grid container spacing={3}>
+                        <Grid item xs={12} >
+                            <TitleForm
+                                editTodo={editTodo}
+                                onChange={props.onChange}
+                            />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <DatePickerForm />
+                        </Grid>
+                        <Grid item xs={12}>
+                            <Grid justify="center" container>
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                >
+                                    submit
                             </Button>
+                            </Grid>
                         </Grid>
                     </Grid>
-                </Grid>
-            </ListItem >
-        </List >
+                </ListItem >
+            </List >
+        </Card>
     );
 };
 
