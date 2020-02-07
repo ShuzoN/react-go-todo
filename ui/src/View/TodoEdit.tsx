@@ -35,17 +35,7 @@ export const TodoEdit = (props: {
                         />
                     </Grid>
                     <Grid item xs={12}>
-                        <FormControl>
-                            <TextField
-                                id="date"
-                                label="dead line"
-                                type="date"
-                                defaultValue="2020-01-01"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                            />
-                        </FormControl>
+                        <DatePickerForm />
                     </Grid>
                     <Grid item xs={12}>
                         <Grid justify="center" container>
@@ -88,5 +78,21 @@ const TitleForm = (props: {
                     }} />
             </FormControl>
         </>
+    );
+};
+
+const DatePickerForm = (): JSX.Element => {
+    return (
+        <FormControl>
+            <TextField
+                id="date"
+                label="dead line"
+                type="date"
+                defaultValue="2020-01-01"
+                InputLabelProps={{
+                    shrink: true,
+                }}
+            />
+        </FormControl>
     );
 };
