@@ -6,7 +6,7 @@ import { DatePickerForm } from './DatePickerForm';
 
 const useStyles = makeStyles({
     card: {
-        margin: '20px 10%',
+        margin: '2% 10%',
     },
     form: {
         width: '100%',

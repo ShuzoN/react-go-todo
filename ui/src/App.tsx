@@ -3,8 +3,19 @@ import { Tasks, Todo } from './View/Tasks';
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import React, { useState, useCallback } from 'react';
 import { TodoEdit } from './View/TodoEdit';
+import { Header } from './View/Header';
+import { makeStyles } from '@material-ui/core';
+
+const useStyles = makeStyles({
+  body: {
+    marginTop: '',
+  },
+});
+
 
 const App = (): JSX.Element => {
+  const c = useStyles();
+
   const [todos, setTodos] = useState<Todo[]>([
     { id: 1, title: 'hoge' },
     { id: 2, title: 'fuga' }
@@ -20,6 +31,7 @@ const App = (): JSX.Element => {
 
   return (
     <div className="App">
+      <Header />
       <Router>
         <Switch>
           <Route exact path={`/:id`}>
