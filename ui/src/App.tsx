@@ -4,21 +4,14 @@ import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import React, { useState, useCallback } from 'react';
 import { TodoEdit } from './View/TodoEdit';
 import { Header } from './View/Header';
-import { makeStyles } from '@material-ui/core';
+import moment from 'moment';
 
-const useStyles = makeStyles({
-  body: {
-    marginTop: '',
-  },
-});
 
 
 const App = (): JSX.Element => {
-  const c = useStyles();
-
   const [todos, setTodos] = useState<Todo[]>([
-    { id: 1, title: 'hoge' },
-    { id: 2, title: 'fuga' }
+    { id: 1, title: 'hoge', deadLine: moment('20200101') },
+    { id: 2, title: 'fuga', deadLine: moment('20200108') }
   ]);
 
   const onChange = useCallback((todo: Todo) => {

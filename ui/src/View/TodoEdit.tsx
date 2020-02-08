@@ -2,7 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import { FormControl, InputLabel, OutlinedInput, List, ListItem, Button, makeStyles, Grid, Card } from '@material-ui/core';
 import { Todo } from './Tasks';
-import { DatePickerForm } from './DatePickerForm';
+import { TodoDatePickerForm } from './TodoDatePickerForm';
 
 const useStyles = makeStyles({
     card: {
@@ -41,7 +41,7 @@ export const TodoEdit = (props: {
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <DatePickerForm />
+                            <TodoDatePickerForm todo={editTodo} onChange={props.onChange} />
                         </Grid>
                         <Grid item xs={12}>
                             <Grid justify="center" container>

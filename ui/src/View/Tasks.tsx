@@ -2,6 +2,7 @@ import React from 'react';
 import { List, ListItem, ListItemText, ListItemIcon } from '@material-ui/core';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import { useHistory } from 'react-router-dom';
+import { Moment } from 'moment';
 
 const TodoItemButton = (props: {
     todo: Todo
@@ -21,6 +22,7 @@ const TodoItemButton = (props: {
 export interface Todo {
     id: number
     title: string
+    deadLine: Moment | null
 }
 
 export interface TaskProps {
