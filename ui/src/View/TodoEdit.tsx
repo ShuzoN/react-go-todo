@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { FormControl, InputLabel, OutlinedInput, List, ListItem, Button, makeStyles, Grid, Card } from '@material-ui/core';
 import { Todo } from './Tasks';
@@ -17,17 +17,31 @@ export const TodoEdit = (props: {
     todos: Todo[],
     onChange: (todo: Todo) => void,
 }): JSX.Element => {
-    const c = useStyles();
-
     const params: { id?: string | undefined } = useParams();
 
     if (params.id === undefined) { return <></>; }
 
-    const editTodo = props.todos.find(
+    const maybeEditTodo = props.todos.find(
         (todo: Todo) => todo.id === Number(params.id)
     );
 
-    if (editTodo === undefined) { return <></>; }
+    if (maybeEditTodo === undefined) { return <></>; }
+
+
+    return <TodoEditView
+        todo={maybeEditTodo}
+        onChange={props.onChange}
+    />
+
+
+};
+
+export const TodoEditView = (props: {
+    todo: Todo,
+    onChange: (todo: Todo) => void,
+}): JSX.Element => {
+    const c = useStyles();
+    const [editTodo, setEditTodo] = useState<Todo>({ ...props.todo });
 
     return (
         <Card className={c.card}>
@@ -37,17 +51,18 @@ export const TodoEdit = (props: {
                         <Grid item xs={12} >
                             <TitleForm
                                 editTodo={editTodo}
-                                onChange={props.onChange}
+                                onChange={setEditTodo}
                             />
                         </Grid>
                         <Grid item xs={12}>
-                            <TodoDatePickerForm todo={editTodo} onChange={props.onChange} />
+                            <TodoDatePickerForm todo={editTodo} onChange={setEditTodo} />
                         </Grid>
                         <Grid item xs={12}>
                             <Grid justify="center" container>
                                 <Button
                                     variant="contained"
                                     color="primary"
+                                    onClick={() => props.onChange(editTodo)}
                                 >
                                     submit
                             </Button>
