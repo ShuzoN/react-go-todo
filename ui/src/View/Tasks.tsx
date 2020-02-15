@@ -22,7 +22,7 @@ const TodoItemButton = (props: {
 export interface Todo {
     id: number
     title: string
-    deadLine: Moment | null
+    deadline: Moment | null
 }
 
 export interface TaskProps {

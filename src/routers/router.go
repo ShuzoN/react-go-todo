@@ -8,10 +8,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type User struct {
-	ID int `uri:"id" binding:"required"`
-}
-
 func Router(r *gin.Engine) {
 	r.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
@@ -22,5 +18,11 @@ func Router(r *gin.Engine) {
 	{
 		controller := controller.UserController{}
 		u.GET("/:id", controller.GetUserById)
+	}
+	t := r.Group("/todos")
+	{
+		controller := controller.TodoController{}
+		t.GET("/", controller.All)
+		t.GET("/:id", controller.GetById)
 	}
 }

@@ -1,30 +1,40 @@
 import './App.css';
 import { Tasks, Todo } from './View/Tasks';
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { TodoEdit } from './View/TodoEdit';
 import { Header } from './View/Header';
-import moment from 'moment';
 import { UserGateway, UserGatewayImpl } from './Gateway/UserGateway';
 import { GatewayImpl } from './Gateway/GatewaImpl';
 import { Gateway } from './Gateway/Gateway';
+import { TodoGateway, TodoGatewayImpl } from './Gateway/TodoGateway';
+import { fetchTodos } from './Epic';
 
 
 interface Gateways {
   userGateway: UserGateway
+  todoGateway: TodoGateway
 }
 
 const gateway: Gateway = new GatewayImpl();
 
 export const gateways: Readonly<Gateways> = {
   userGateway: new UserGatewayImpl(gateway),
+  todoGateway: new TodoGatewayImpl(gateway),
 }
 
 const App = (): JSX.Element => {
-  const [todos, setTodos] = useState<Todo[]>([
-    { id: 1, title: 'hoge', deadLine: moment('20200101') },
-    { id: 2, title: 'fuga', deadLine: moment('20200108') }
-  ]);
+  const [todos, setTodos] = useState<Todo[]>([]);
+
+  useEffect(() => {
+    ; (async () => {
+      const maybePromiseTodos: Todo[] | Error = await fetchTodos(gateways.todoGateway);
+      const promiseTodos: Todo[] = maybePromiseTodos instanceof Error ? [] : maybePromiseTodos;
+
+      setTodos(promiseTodos)
+    })()
+  }, []);
+
 
   const onChange = useCallback((todo: Todo) => {
     const index = todo.id <= 0 ? 0 : todo.id - 1;

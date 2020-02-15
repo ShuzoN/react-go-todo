@@ -15,7 +15,7 @@ export const TodoDatePickerForm = (props: {
 
     return (
         <DatePickerForm
-            selectedDate={props.todo.deadLine}
+            selectedDate={props.todo.deadline}
             handleDateChange={handleDateChange}
         />
     );

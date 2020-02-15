@@ -3,10 +3,7 @@ import { Gateway } from "./Gateway";
 const ORIGIN = "http://localhost:80";
 
 export class GatewayImpl implements Gateway {
-  get(path: string): Promise<Response> {
-    return this._get<Response>(path);
-  }
-  async _get<T>(path: string): Promise<T> {
+  async get(path: string): Promise<Response> {
     return await fetch(ORIGIN + path, {
       mode: "cors",
       method: "get",
@@ -18,7 +15,7 @@ export class GatewayImpl implements Gateway {
         if (!res.ok) {
           throw new Error(res.statusText);
         }
-        return res.json();
+        return res;
       })
       .catch(rejected => {
         throw new Error(rejected);
