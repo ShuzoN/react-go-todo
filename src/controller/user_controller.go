@@ -40,6 +40,9 @@ func (c *UserController) GetUserById(ctx *gin.Context) {
 		log.Println(err)
 		return
 	}
+
+	ctx.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+
 	ctx.JSON(http.StatusOK, gin.H{
 		"id":   user.ID,
 		"name": user.Name,
