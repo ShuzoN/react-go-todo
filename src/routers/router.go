@@ -23,4 +23,9 @@ func Router(r *gin.Engine) {
 		controller := controller.UserController{}
 		u.GET("/:id", controller.GetUserById)
 	}
+	t := r.Group("/todos")
+	{
+		controller := controller.TodoController{}
+		t.GET("/:id", controller.GetById)
+	}
 }
