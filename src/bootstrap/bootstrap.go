@@ -22,7 +22,7 @@ func GetDB() *gorm.DB {
 }
 
 func boot() *bootstrap {
-	db, err := gorm.Open("mysql", "root:mysqlrootpassword@tcp(mysqld:3306)/headphonista")
+	db, err := gorm.Open("mysql", "root:mysqlrootpassword@tcp(mysqld:3306)/headphonista?charset=utf8mb4&parseTime=True")
 	if err != nil {
 		panic(err)
 	}
