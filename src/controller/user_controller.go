@@ -28,7 +28,7 @@ func (c *UserController) GetUserById(ctx *gin.Context) {
 	var user *dto.User
 	var errGetUser error
 	err := di.Container.Invoke(func(ds *services.UserService) {
-		user, errGetUser = ds.GetUserById(queryParams.ID)
+		user, errGetUser = ds.GetById(queryParams.ID)
 	})
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "server error"})

@@ -27,7 +27,7 @@ func CreateUserService() *services.UserService {
 	}
 }
 
-func CreateUserRepositoryOnMysql(connection *gorm.DB) services.Repository {
+func CreateUserRepositoryOnMysql(connection *gorm.DB) services.UserRepository {
 	return &infrastructures.UserRepositoryOnMysql{
 		DbConnection: connection,
 	}

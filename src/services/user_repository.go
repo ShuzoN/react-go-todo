@@ -2,6 +2,6 @@ package services
 
 import "headphonista/src/dto"
 
-type Repository interface {
+type UserRepository interface {
 	GetByID(id int) (*dto.User, error)
 }

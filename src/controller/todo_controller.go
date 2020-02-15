@@ -27,8 +27,8 @@ func (c *TodoController) GetById(ctx *gin.Context) {
 
 	var todo *dto.Todo
 	var errGetTodo error
-	err := di.Container.Invoke(func(ds *services.TodoService) {
-		todo, errGetTodo = ds.GetTodoById(queryParams.ID)
+	err := di.Container.Invoke(func(s *services.TodoService) {
+		todo, errGetTodo = s.GetById(queryParams.ID)
 	})
 	if err != nil {
 		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "server error"})

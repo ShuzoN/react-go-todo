@@ -6,10 +6,10 @@ import (
 )
 
 type UserService struct {
-	UserRepository Repository
+	UserRepository UserRepository
 }
 
-func (ds *UserService) GetUserById(id int) (*dto.User, error) {
+func (ds *UserService) GetById(id int) (*dto.User, error) {
 	user, err := ds.UserRepository.GetByID(id)
 
 	if err != nil {
