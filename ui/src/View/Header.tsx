@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppBar, Typography, Toolbar, IconButton, } from '@material-ui/core';
+import { AppBar, Toolbar, IconButton, Button, } from '@material-ui/core';
 import NoteAddIcon from '@material-ui/icons/NoteAdd';
 
 export const Header = (): JSX.Element => {
@@ -9,9 +9,9 @@ export const Header = (): JSX.Element => {
                 <IconButton edge="start" color="inherit">
                     <NoteAddIcon />
                 </IconButton>
-                <Typography variant="h6">
+                <Button size="large" variant="text" color="inherit" href="/">
                     Todos
-                        </Typography>
+                </Button>
             </Toolbar>
         </AppBar >
     );
