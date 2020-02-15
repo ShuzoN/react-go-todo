@@ -22,6 +22,7 @@ func Router(r *gin.Engine) {
 	t := r.Group("/todos")
 	{
 		controller := controller.TodoController{}
+		t.GET("/", controller.All)
 		t.GET("/:id", controller.GetById)
 	}
 }
