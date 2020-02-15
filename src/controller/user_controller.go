@@ -17,7 +17,7 @@ type UserQueryParams struct {
 	ID int `uri:"id" binding:"required"`
 }
 
-// :id
+// get :id
 func (c *UserController) GetUserById(ctx *gin.Context) {
 	var queryParams UserQueryParams
 	if err := ctx.ShouldBindUri(&queryParams); err != nil {
@@ -40,6 +40,7 @@ func (c *UserController) GetUserById(ctx *gin.Context) {
 		log.Println(err)
 		return
 	}
+
 	ctx.JSON(http.StatusOK, gin.H{
 		"id":   user.ID,
 		"name": user.Name,

@@ -5,8 +5,20 @@ import React, { useState, useCallback } from 'react';
 import { TodoEdit } from './View/TodoEdit';
 import { Header } from './View/Header';
 import moment from 'moment';
+import { UserGateway, UserGatewayImpl } from './Gateway/UserGateway';
+import { GatewayImpl } from './Gateway/GatewaImpl';
+import { Gateway } from './Gateway/Gateway';
 
 
+interface Gateways {
+  userGateway: UserGateway
+}
+
+const gateway: Gateway = new GatewayImpl();
+
+export const gateways: Readonly<Gateways> = {
+  userGateway: new UserGatewayImpl(gateway),
+}
 
 const App = (): JSX.Element => {
   const [todos, setTodos] = useState<Todo[]>([
