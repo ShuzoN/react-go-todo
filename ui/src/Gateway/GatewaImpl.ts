@@ -1,16 +1,13 @@
+import { Gateway } from "./Gateway";
+
 const ORIGIN = "http://localhost:80";
 
-export interface TodoGateway {
-  get(path: string): Promise<Response>;
-  post(path: string, json: JSON): Promise<Response>;
-}
-
-export class TodoGatewayImpl implements TodoGateway {
+export class GatewayImpl implements Gateway {
   get(path: string): Promise<Response> {
     return this._get<Response>(path);
   }
   async _get<T>(path: string): Promise<T> {
-    return await fetch(ORIGIN + "/users/" + path, {
+    return await fetch(ORIGIN + path, {
       mode: "cors",
       method: "get",
       headers: {

@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { FormControl, InputLabel, OutlinedInput, List, ListItem, Button, makeStyles, Grid, Card } from '@material-ui/core';
 import { Todo } from './Tasks';
 import { TodoDatePickerForm } from './TodoDatePickerForm';
-import { TodoGatewayImpl } from '../Gateway/TodoGateway';
+import { gateways } from '../App';
 
 const useStyles = makeStyles({
     card: {
@@ -65,8 +65,7 @@ export const TodoEditView = (props: {
                                     color="primary"
                                     onClick={() => {
                                         props.onChange(editTodo);
-                                        const g = new TodoGatewayImpl();
-                                        console.log(g.get('1'));
+                                        console.log(gateways.userGateway.getById(1));
                                     }}
                                 >
                                     submit
