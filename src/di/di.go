@@ -17,6 +17,8 @@ func Init() *dig.Container {
 	c.Provide(bootstrap.GetDB)
 	c.Provide(CreateUserRepositoryOnMysql)
 	c.Provide(CreateUserService)
+	c.Provide(CreateTodoRepositoryOnMysql)
+	c.Provide(CreateTodoService)
 
 	return c
 }
@@ -29,6 +31,18 @@ func CreateUserService() *services.UserService {
 
 func CreateUserRepositoryOnMysql(connection *gorm.DB) services.UserRepository {
 	return &infrastructures.UserRepositoryOnMysql{
+		DbConnection: connection,
+	}
+}
+
+func CreateTodoService() *services.TodoService {
+	return &services.TodoService{
+		TodoRepository: CreateTodoRepositoryOnMysql(bootstrap.GetDB()),
+	}
+}
+
+func CreateTodoRepositoryOnMysql(connection *gorm.DB) services.TodoRepository {
+	return &infrastructures.TodoRepositoryOnMysql{
 		DbConnection: connection,
 	}
 }
