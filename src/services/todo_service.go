@@ -9,7 +9,7 @@ type TodoService struct {
 	TodoRepository TodoRepository
 }
 
-func (s *TodoService) GetAll() (*[]dto.Todo, error) {
+func (s *TodoService) GetAll() ([]dto.Todo, error) {
 	todos, err := s.TodoRepository.GetAll()
 
 	if err != nil {
@@ -21,7 +21,7 @@ func (s *TodoService) GetAll() (*[]dto.Todo, error) {
 
 }
 
-func (s *TodoService) GetById(id int) (*dto.Todo, error) {
+func (s *TodoService) GetById(id int) (dto.Todo, error) {
 	todo, err := s.TodoRepository.GetByID(id)
 
 	if err != nil {
