@@ -22,8 +22,22 @@ export class GatewayImpl implements Gateway {
       });
   }
   async post(path: string, json: string): Promise<Response> {
-    console.log(path);
-    console.log(json);
-    throw new Error("Method not implemented.");
+    return await fetch(ORIGIN + path, {
+      mode: "cors",
+      method: "post",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      },
+      body: json
+    })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(res.statusText);
+        }
+        return res;
+      })
+      .catch(rejected => {
+        throw new Error(rejected);
+      });
   }
 }

@@ -32,7 +32,7 @@ export class TodoGatewayImpl implements TodoGateway {
 
 function todoSerializer(key: any, value: any) {
   if (key === "deadline") {
-    return moment(value).format("YYYY:MM:DDTHH:mm:ssZ");
+    return moment(value).format("YYYY-MM-DDTHH:mm:ssZ");
   }
 
   return value;
