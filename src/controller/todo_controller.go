@@ -19,9 +19,9 @@ type TodoQueryParams struct {
 }
 
 type TodoSerialize struct {
-	ID       int       `json:"id"`
-	Title    string    `json:"title"`
-	Deadline time.Time `json:"deadline"`
+	ID       int       `json:"id" form:"id"`
+	Title    string    `json:"title" form:"title"`
+	Deadline time.Time `json:"deadline" form:"deadline"`
 }
 
 func todosSerializer(todos []dto.Todo) []TodoSerialize {
@@ -91,4 +91,35 @@ func (c *TodoController) GetById(ctx *gin.Context) {
 	}
 
 	ctx.JSON(http.StatusOK, todoSerializer(todo))
+}
+
+// post :id
+// '{"id": 1, "title":"hoge", "deadline": "2020-01-02T00:00:00+09:00"}'
+func (c *TodoController) Post(ctx *gin.Context) {
+	var reqTodo TodoSerialize
+	if err := ctx.BindJSON(&reqTodo); err != nil {
+		ctx.AbortWithStatus(http.StatusBadRequest)
+		log.Println(err)
+		return
+	}
+
+	todo := dto.Todo{
+		ID:       reqTodo.ID,
+		Title:    reqTodo.Title,
+		Deadline: reqTodo.Deadline,
+	}
+
+	var errUpdate error
+	err := di.Container.Invoke(func(s *services.TodoService) {
+		errUpdate = s.Update(todo)
+	})
+
+	if err != nil || errUpdate != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "server error"})
+		log.Println(err)
+		return
+	}
+
+	ctx.JSON(http.StatusCreated, gin.H{})
+	return
 }

@@ -32,3 +32,12 @@ func (s *TodoService) GetById(id int) (dto.Todo, error) {
 	return todo, nil
 
 }
+
+func (s *TodoService) Update(todo dto.Todo) error {
+	if err := s.TodoRepository.Update(todo); err != nil {
+		log.Println("can not Update", err)
+		return err
+	}
+
+	return nil
+}
