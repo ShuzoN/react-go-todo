@@ -6,6 +6,7 @@ export interface TodoGateway {
   getById(id: number): Promise<Response>;
   getAll(): Promise<Response>;
   update(todo: Todo): Promise<Response>;
+  create(todo: Todo): Promise<Response>;
 }
 
 export class TodoGatewayImpl implements TodoGateway {
@@ -20,6 +21,10 @@ export class TodoGatewayImpl implements TodoGateway {
 
   getAll(): Promise<Response> {
     return this.gateway.get("/todos/");
+  }
+
+  create(todo: Todo): Promise<Response> {
+    return this.gateway.post("/todos/", JSON.stringify(todo, todoSerializer));
   }
 
   update(todo: Todo): Promise<Response> {
