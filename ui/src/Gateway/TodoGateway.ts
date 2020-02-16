@@ -1,7 +1,11 @@
 import { Gateway } from "./Gateway";
+import { Todo } from "../Contract";
+import moment from "moment";
+
 export interface TodoGateway {
   getById(id: number): Promise<Response>;
   getAll(): Promise<Response>;
+  update(todo: Todo): Promise<Response>;
 }
 
 export class TodoGatewayImpl implements TodoGateway {
@@ -17,4 +21,19 @@ export class TodoGatewayImpl implements TodoGateway {
   getAll(): Promise<Response> {
     return this.gateway.get("/todos/");
   }
+
+  update(todo: Todo): Promise<Response> {
+    return this.gateway.post(
+      "/todos/" + todo.id,
+      JSON.stringify(todo, todoSerializer)
+    );
+  }
+}
+
+function todoSerializer(key: any, value: any) {
+  if (key === "deadline") {
+    return moment(value).format("YYYY-MM-DDTHH:mm:ssZ");
+  }
+
+  return value;
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import { List, ListItem, ListItemText, ListItemIcon } from '@material-ui/core';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import { useHistory } from 'react-router-dom';
-import { Moment } from 'moment';
+import { Todo } from '../Contract';
 
 const TodoItemButton = (props: {
     todo: Todo
@@ -17,12 +17,6 @@ const TodoItemButton = (props: {
             <ListItemText>{props.todo.title}</ListItemText>
         </ListItem>
     );
-}
-
-export interface Todo {
-    id: number
-    title: string
-    deadline: Moment | null
 }
 
 export interface TaskProps {

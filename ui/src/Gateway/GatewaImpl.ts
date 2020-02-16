@@ -21,11 +21,23 @@ export class GatewayImpl implements Gateway {
         throw new Error(rejected);
       });
   }
-  post(path: string, json: JSON): Promise<Response> {
-    throw new Error("Method not implemented.");
-  }
-
-  async _post<T>(path: string, json: JSON): Promise<T> {
-    throw new Error("Method not implemented.");
+  async post(path: string, json: string): Promise<Response> {
+    return await fetch(ORIGIN + path, {
+      mode: "cors",
+      method: "post",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8"
+      },
+      body: json
+    })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error(res.statusText);
+        }
+        return res;
+      })
+      .catch(rejected => {
+        throw new Error(rejected);
+      });
   }
 }

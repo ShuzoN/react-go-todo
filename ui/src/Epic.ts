@@ -1,5 +1,5 @@
-import { Todo } from "./View/Tasks";
 import { TodoGateway } from "./Gateway/TodoGateway";
+import { Todo } from "./Contract";
 
 export async function fetchTodos(
   todoGateway: TodoGateway
@@ -13,4 +13,15 @@ export async function fetchTodos(
     return { ...todo, deadline: todo.deadline };
   });
   return todos;
+}
+
+export async function updateTodo(
+  todoGateway: TodoGateway,
+  todo: Todo
+): Promise<Todo | Error> {
+  const res = await todoGateway.update(todo);
+  if (res.status >= 400) {
+    throw new Error(res.status + ": update fail");
+  }
+  return todo;
 }

@@ -1,5 +1,5 @@
 import './App.css';
-import { Tasks, Todo } from './View/Tasks';
+import { Tasks } from './View/Tasks';
 import { Switch, Route, BrowserRouter as Router } from 'react-router-dom';
 import React, { useState, useCallback, useEffect } from 'react';
 import { TodoEdit } from './View/TodoEdit';
@@ -9,6 +9,7 @@ import { GatewayImpl } from './Gateway/GatewaImpl';
 import { Gateway } from './Gateway/Gateway';
 import { TodoGateway, TodoGatewayImpl } from './Gateway/TodoGateway';
 import { fetchTodos } from './Epic';
+import { Todo } from './Contract';
 
 
 interface Gateways {
