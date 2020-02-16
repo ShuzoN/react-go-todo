@@ -21,11 +21,9 @@ export class GatewayImpl implements Gateway {
         throw new Error(rejected);
       });
   }
-  post(path: string, json: JSON): Promise<Response> {
-    throw new Error("Method not implemented.");
-  }
-
-  async _post<T>(path: string, json: JSON): Promise<T> {
+  async post(path: string, json: string): Promise<Response> {
+    console.log(path);
+    console.log(json);
     throw new Error("Method not implemented.");
   }
 }

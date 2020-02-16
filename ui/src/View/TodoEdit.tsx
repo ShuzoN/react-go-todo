@@ -65,7 +65,7 @@ export const TodoEditView = (props: {
                                     color="primary"
                                     onClick={() => {
                                         props.onChange(editTodo);
-                                        console.log(gateways.userGateway.getById(1));
+                                        gateways.todoGateway.update(editTodo);
                                     }}
                                 >
                                     submit
