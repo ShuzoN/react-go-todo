@@ -120,6 +120,35 @@ func (c *TodoController) Post(ctx *gin.Context) {
 		return
 	}
 
+	ctx.JSON(http.StatusOK, gin.H{})
+	return
+}
+
+// post /
+func (c *TodoController) Create(ctx *gin.Context) {
+	var reqTodo TodoSerialize
+	if err := ctx.BindJSON(&reqTodo); err != nil {
+		ctx.AbortWithStatus(http.StatusBadRequest)
+		log.Println(err)
+		return
+	}
+
+	todo := dto.Todo{
+		Title:    reqTodo.Title,
+		Deadline: reqTodo.Deadline,
+	}
+
+	var errCreate error
+	err := di.Container.Invoke(func(s *services.TodoService) {
+		errCreate = s.Create(todo)
+	})
+
+	if err != nil || errCreate != nil {
+		ctx.JSON(http.StatusInternalServerError, gin.H{"error": "server error"})
+		log.Println(err)
+		return
+	}
+
 	ctx.JSON(http.StatusCreated, gin.H{})
 	return
 }
