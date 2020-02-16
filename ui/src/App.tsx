@@ -8,7 +8,7 @@ import { UserGateway, UserGatewayImpl } from './Gateway/UserGateway';
 import { GatewayImpl } from './Gateway/GatewaImpl';
 import { Gateway } from './Gateway/Gateway';
 import { TodoGateway, TodoGatewayImpl } from './Gateway/TodoGateway';
-import { fetchTodos } from './Epic';
+import { fetchTodos, updateTodo } from './Epic';
 import { Todo } from './Contract';
 import { TodoNew } from './View/TodoNew';
 
@@ -55,7 +55,10 @@ const App = (): JSX.Element => {
             <TodoNew />
           </Route>
           <Route exact path={`/:id`}>
-            <TodoEdit todos={todos} onChange={onChange} />
+            <TodoEdit todos={todos} onChange={(todo) => {
+              onChange(todo);
+              updateTodo(gateways.todoGateway, todo);
+            }} />
           </Route>
           <Route exact path="/">
             <Tasks todos={todos} onChange={onChange} />

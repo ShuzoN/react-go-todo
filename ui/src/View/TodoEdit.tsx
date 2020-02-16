@@ -2,9 +2,7 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { FormControl, InputLabel, OutlinedInput, List, ListItem, Button, makeStyles, Grid, Card } from '@material-ui/core';
 import { TodoDatePickerForm } from './TodoDatePickerForm';
-import { gateways } from '../App';
 import { Todo } from '../Contract';
-import { updateTodo } from '../Epic';
 
 const useStyles = makeStyles({
     card: {
@@ -64,10 +62,7 @@ export const TodoEditView = (props: {
                                 <Button
                                     variant="contained"
                                     color="primary"
-                                    onClick={() => {
-                                        props.onChange(editTodo);
-                                        updateTodo(gateways.todoGateway, editTodo);
-                                    }}
+                                    onClick={() => props.onChange(editTodo)}
                                 >
                                     submit
                             </Button>
