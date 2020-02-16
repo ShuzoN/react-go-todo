@@ -1,20 +1,49 @@
-import React from 'react';
-import { List, ListItem, ListItemText, ListItemIcon } from '@material-ui/core';
-import ArrowRightIcon from '@material-ui/icons/ArrowRight';
+import React, { useState } from 'react';
+import { List, ListItem, Card, makeStyles, CardHeader, IconButton } from '@material-ui/core';
+import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
+import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import EditIcon from '@material-ui/icons/Edit';
 import { useHistory } from 'react-router-dom';
 import { Todo } from '../Contract';
+import moment from 'moment';
+
+const useStyles = makeStyles({
+    root: {
+        width: '100%',
+        fontSize: 14,
+    },
+});
 
 const TodoItemButton = (props: {
     todo: Todo
 }): JSX.Element => {
     const history = useHistory();
+    const c = useStyles();
+
+    const [check, setCheck] = useState(false);
 
     return (
-        <ListItem button onClick={() => history.push('/' + props.todo.id.toString())}>
-            <ListItemIcon>
-                <ArrowRightIcon />
-            </ListItemIcon>
-            <ListItemText>{props.todo.title}</ListItemText>
+        <ListItem>
+            <Card className={c.root}>
+                <CardHeader
+                    avatar={
+                        <IconButton
+                            onClick={() => setCheck(!check)}
+                        >
+                            {check ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />}
+                        </IconButton>
+                    }
+                    action={
+                        <IconButton
+                            onClick={() => history.push('/' + props.todo.id.toString())}
+                        >
+                            <EditIcon />
+                        </IconButton>
+                    }
+                    title={props.todo.title}
+                    subheader={"deadline: " + moment(props.todo.deadline?.toString()).format("YYYY-MM-DD")}
+                />
+            </Card>
         </ListItem>
     );
 }

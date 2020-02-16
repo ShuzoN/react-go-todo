@@ -25,3 +25,14 @@ export async function updateTodo(
   }
   return todo;
 }
+
+export async function createTodo(
+  todoGateway: TodoGateway,
+  todo: Todo
+): Promise<Todo | Error> {
+  const res = await todoGateway.create(todo);
+  if (res.status >= 400) {
+    throw new Error(res.status + ": update fail");
+  }
+  return todo;
+}
