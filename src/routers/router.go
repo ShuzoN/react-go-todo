@@ -25,5 +25,6 @@ func Router(r *gin.Engine) {
 		t.GET("/", controller.All)
 		t.GET("/:id", controller.GetById)
 		t.POST("/:id", controller.Post)
+		t.POST("/", controller.Create)
 	}
 }

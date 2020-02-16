@@ -41,3 +41,12 @@ func (s *TodoService) Update(todo dto.Todo) error {
 
 	return nil
 }
+
+func (s *TodoService) Create(todo dto.Todo) error {
+	if err := s.TodoRepository.Create(todo); err != nil {
+		log.Println("can not create", err)
+		return err
+	}
+
+	return nil
+}
