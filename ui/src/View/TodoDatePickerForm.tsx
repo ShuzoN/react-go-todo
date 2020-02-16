@@ -9,7 +9,7 @@ export const TodoDatePickerForm = (props: {
     onChange: (todo: Todo) => void,
 }): JSX.Element => {
     const handleDateChange = (date: MaterialUiPickersDate) => {
-        const todo = { ...props.todo, deadLine: date };
+        const todo = { ...props.todo, deadline: date };
         props.onChange(todo);
     };
 
