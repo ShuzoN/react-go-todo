@@ -1,8 +1,8 @@
 
 import React from "react";
 import { MaterialUiPickersDate } from "@material-ui/pickers/typings/date";
-import { Todo } from "./Tasks";
 import { DatePickerForm } from "./utils/DatePickerForm";
+import { Todo } from "../Contract";
 
 export const TodoDatePickerForm = (props: {
     todo: Todo,

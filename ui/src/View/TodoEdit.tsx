@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { FormControl, InputLabel, OutlinedInput, List, ListItem, Button, makeStyles, Grid, Card } from '@material-ui/core';
-import { Todo } from './Tasks';
 import { TodoDatePickerForm } from './TodoDatePickerForm';
 import { gateways } from '../App';
+import { Todo } from '../Contract';
 
 const useStyles = makeStyles({
     card: {

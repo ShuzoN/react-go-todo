@@ -1,4 +1,5 @@
 import { Gateway } from "./Gateway";
+
 export interface TodoGateway {
   getById(id: number): Promise<Response>;
   getAll(): Promise<Response>;
