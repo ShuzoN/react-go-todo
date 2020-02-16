@@ -4,6 +4,8 @@ import EditIcon from '@material-ui/icons/Edit';
 import { useHistory } from 'react-router-dom';
 import { Todo } from '../Contract';
 import moment from 'moment';
+import { updateTodo } from '../Epic';
+import { gateways } from '../App';
 
 const useStyles = makeStyles({
     root: {
@@ -18,7 +20,7 @@ const TodoItemButton = (props: {
     const history = useHistory();
     const c = useStyles();
 
-    const [checked, setChecked] = useState(false);
+    const [checked, setChecked] = useState(props.todo.checked);
 
     return (
         <ListItem>
@@ -28,7 +30,10 @@ const TodoItemButton = (props: {
                         <Checkbox
                             color="primary"
                             checked={checked}
-                            onChange={() => setChecked(!checked)}
+                            onChange={() => {
+                                setChecked(!checked)
+                                updateTodo(gateways.todoGateway, { ...props.todo, checked: !checked })
+                            }}
                         />
                     }
                     action={

@@ -34,7 +34,7 @@ func (todoRepository *TodoRepositoryOnMysql) Create(todo dto.Todo) error {
 }
 
 func (todoRepository *TodoRepositoryOnMysql) Update(todo dto.Todo) error {
-	if err := todoRepository.DbConnection.Model(&todo).Updates(&todo).Error; err != nil {
+	if err := todoRepository.DbConnection.Model(&todo).Save(todo).Error; err != nil {
 		return err
 	}
 	return nil
