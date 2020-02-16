@@ -10,6 +10,7 @@ import { Gateway } from './Gateway/Gateway';
 import { TodoGateway, TodoGatewayImpl } from './Gateway/TodoGateway';
 import { fetchTodos } from './Epic';
 import { Todo } from './Contract';
+import { TodoNew } from './View/TodoNew';
 
 
 interface Gateways {
@@ -50,6 +51,9 @@ const App = (): JSX.Element => {
       <Header />
       <Router>
         <Switch>
+          <Route exact path={`/new`}>
+            <TodoNew />
+          </Route>
           <Route exact path={`/:id`}>
             <TodoEdit todos={todos} onChange={onChange} />
           </Route>

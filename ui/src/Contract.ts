@@ -5,3 +5,11 @@ export interface Todo {
   title: string;
   deadline: Moment | null;
 }
+
+export function initTodo(): Todo {
+  return {
+    id: 0,
+    title: "",
+    deadline: null
+  };
+}
