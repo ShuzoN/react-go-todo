@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { List, ListItem, Card, makeStyles, CardHeader, IconButton } from '@material-ui/core';
+import { List, ListItem, Card, makeStyles, CardHeader, IconButton, Grid } from '@material-ui/core';
 import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import EditIcon from '@material-ui/icons/Edit';
@@ -60,9 +60,13 @@ export const Tasks = (tasks: TaskProps): JSX.Element => {
 
     return (
         <>
-            <List>
-                {todoItems}
-            </List>
+            <Grid container justify="center" spacing={2}>
+                <Grid item xs={11}>
+                    <List>
+                        {todoItems}
+                    </List>
+                </Grid>
+            </Grid>
         </>
     );
 }
