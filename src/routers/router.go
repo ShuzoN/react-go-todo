@@ -24,5 +24,6 @@ func Router(r *gin.Engine) {
 		controller := controller.TodoController{}
 		t.GET("/", controller.All)
 		t.GET("/:id", controller.GetById)
+		t.POST("/:id", controller.Post)
 	}
 }

@@ -1,5 +1,5 @@
-import { TodoGateway } from "./Gateway/TodoGateway";
 import { Todo } from "./View/Tasks";
+import { TodoGateway } from "./Gateway/TodoGateway";
 
 export async function fetchTodos(
   todoGateway: TodoGateway

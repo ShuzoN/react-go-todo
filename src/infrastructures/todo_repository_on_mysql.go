@@ -25,3 +25,10 @@ func (todoRepository *TodoRepositoryOnMysql) GetByID(id int) (dto.Todo, error) {
 	}
 	return todo, nil
 }
+
+func (todoRepository *TodoRepositoryOnMysql) Update(todo dto.Todo) error {
+	if err := todoRepository.DbConnection.Model(&todo).Updates(&todo).Error; err != nil {
+		return err
+	}
+	return nil
+}
