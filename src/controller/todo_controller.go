@@ -22,6 +22,7 @@ type TodoSerialize struct {
 	ID       int       `json:"id" form:"id"`
 	Title    string    `json:"title" form:"title"`
 	Deadline time.Time `json:"deadline" form:"deadline"`
+	Checked  bool      `json:"checked" form:"checked"`
 }
 
 func todosSerializer(todos []dto.Todo) []TodoSerialize {
@@ -38,6 +39,7 @@ func todoSerializer(todo dto.Todo) TodoSerialize {
 	todoSerializes.ID = todo.ID
 	todoSerializes.Title = todo.Title
 	todoSerializes.Deadline = todo.Deadline
+	todoSerializes.Checked = todo.Checked
 
 	return todoSerializes
 }
@@ -94,7 +96,6 @@ func (c *TodoController) GetById(ctx *gin.Context) {
 }
 
 // post :id
-// '{"id": 1, "title":"hoge", "deadline": "2020-01-02T00:00:00+09:00"}'
 func (c *TodoController) Post(ctx *gin.Context) {
 	var reqTodo TodoSerialize
 	if err := ctx.BindJSON(&reqTodo); err != nil {
@@ -107,6 +108,7 @@ func (c *TodoController) Post(ctx *gin.Context) {
 		ID:       reqTodo.ID,
 		Title:    reqTodo.Title,
 		Deadline: reqTodo.Deadline,
+		Checked:  reqTodo.Checked,
 	}
 
 	var errUpdate error
@@ -136,6 +138,7 @@ func (c *TodoController) Create(ctx *gin.Context) {
 	todo := dto.Todo{
 		Title:    reqTodo.Title,
 		Deadline: reqTodo.Deadline,
+		Checked:  reqTodo.Checked,
 	}
 
 	var errCreate error
