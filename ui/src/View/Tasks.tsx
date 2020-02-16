@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { List, ListItem, Card, makeStyles, CardHeader, IconButton, Grid } from '@material-ui/core';
-import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@material-ui/icons/CheckBox';
+import { List, ListItem, Card, makeStyles, CardHeader, IconButton, Grid, Checkbox } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import { useHistory } from 'react-router-dom';
 import { Todo } from '../Contract';
 import moment from 'moment';
+import { updateTodo } from '../Epic';
+import { gateways } from '../App';
 
 const useStyles = makeStyles({
     root: {
@@ -20,18 +20,21 @@ const TodoItemButton = (props: {
     const history = useHistory();
     const c = useStyles();
 
-    const [check, setCheck] = useState(false);
+    const [checked, setChecked] = useState(props.todo.checked);
 
     return (
         <ListItem>
             <Card className={c.root}>
                 <CardHeader
                     avatar={
-                        <IconButton
-                            onClick={() => setCheck(!check)}
-                        >
-                            {check ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />}
-                        </IconButton>
+                        <Checkbox
+                            color="primary"
+                            checked={checked}
+                            onChange={() => {
+                                setChecked(!checked)
+                                updateTodo(gateways.todoGateway, { ...props.todo, checked: !checked })
+                            }}
+                        />
                     }
                     action={
                         <IconButton
