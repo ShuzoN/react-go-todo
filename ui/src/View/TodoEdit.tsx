@@ -4,6 +4,7 @@ import { FormControl, InputLabel, OutlinedInput, List, ListItem, Button, makeSty
 import { TodoDatePickerForm } from './TodoDatePickerForm';
 import { gateways } from '../App';
 import { Todo } from '../Contract';
+import { updateTodo } from '../Epic';
 
 const useStyles = makeStyles({
     card: {
@@ -65,7 +66,7 @@ export const TodoEditView = (props: {
                                     color="primary"
                                     onClick={() => {
                                         props.onChange(editTodo);
-                                        gateways.todoGateway.update(editTodo);
+                                        updateTodo(gateways.todoGateway, editTodo);
                                     }}
                                 >
                                     submit
