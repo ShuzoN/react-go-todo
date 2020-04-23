@@ -28,7 +28,7 @@ services:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       TZ: Asia/Tokyo
     networks:
-      headphonista:
+      react-go-todo:
 
   ui:
     build:
@@ -40,8 +40,8 @@ services:
       - 127.0.0.1:${UI_PORT}:3000
     command: make install run
     networks:
-      headphonista:
+      react-go-todo:
 
 networks:
-  headphonista:
+  react-go-todo:
 
